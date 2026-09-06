@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RakEarnKonDiewMaiBangHaiKrai</title>
+    <!-- ดึงฟอนต์ Playpen Sans Thai และ Charm จาก Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Charm:ital,wght@0,400;0,700;1,400;1,700&family=Playpen+Sans+Thai:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -230,35 +231,38 @@
             font-family: 'Charm', cursive;
         }
 
-        /* --- ส่วนล่างของจดหมาย (จัดเรียงใหม่ให้อยู่ในระเบียบ ไม่ทับกัน) --- */
+        /* --- ส่วนล่างของจดหมาย (จัดระเบียบใหม่ให้ชื่ออยู่ขวาล่างชัวร์ๆ) --- */
         .letter-footer {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            margin-top: 20px;
-            padding-top: 10px;
+            margin-top: 15px;
+            padding-top: 5px;
             position: relative;
-            flex-wrap: wrap;
-            gap: 15px;
         }
 
         .footer-left {
             display: flex;
             align-items: flex-end;
-            gap: 15px;
+        }
+
+        .footer-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
         }
 
         /* --- กรอบรูปคู่สไตล์โพลารอยด์ --- */
         .couple-photo-frame {
             background: #ffffff;
-            padding: 6px 6px 18px 6px;
+            padding: 6px 6px 16px 6px;
             border-radius: 4px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            width: 85px;
+            width: 80px;
             text-align: center;
             transform: rotate(2deg);
             transition: transform 0.3s ease;
-            flex-shrink: 0;
         }
 
         .couple-photo-frame:hover {
@@ -267,7 +271,7 @@
 
         .couple-photo-frame img {
             width: 100%;
-            height: 85px;
+            height: 80px;
             object-fit: cover;
             border-radius: 2px;
             display: block;
@@ -278,7 +282,8 @@
             font-weight: 700;
             color: #ff00ea;
             font-size: 19px;
-            margin-bottom: 5px;
+            text-align: right;
+            margin-top: 5px;
         }
 
         /* --- ช่อดอกไม้ --- */
@@ -289,7 +294,6 @@
             transform: scale(clamp(0.7, 3.5vw, 0.9)); 
             transform-origin: bottom left;
             pointer-events: none;
-            flex-shrink: 0;
         }
 
         .vase-glass {
@@ -442,6 +446,7 @@
 </head>
 <body>
 
+    <!-- ชั้นสำหรับหัวใจสีชมพูโปรยปราย -->
     <div class="rose-petals-container" id="petalsContainer"></div>
 
     <audio id="bgMusic" loop>
@@ -472,6 +477,7 @@
             </div>
             
             <div class="letter-footer">
+                <!-- ฝั่งซ้าย: ช่อดอกไม้ -->
                 <div class="footer-left">
                     <div class="flower-container">
                         <div class="vase-glass"></div>
@@ -530,14 +536,16 @@
                         <div class="glowing-particle" style="left: 120px; top: 30px; animation-delay: 3.2s;"></div>
                         <div class="glowing-particle" style="left: 60px; top: -10px; animation-delay: 3.5s;"></div>
                     </div>
+                </div>
 
+                <!-- ฝั่งขวา: รูปโพลารอยด์อยู่บน และชื่อคนส่งอยู่ขวาล่างสุดๆ -->
+                <div class="footer-right">
                     <div class="couple-photo-frame">
                         <img src="EarnandMe.jpg" alt="Our Picture">
                     </div>
-                </div>
-
-                <div class="signature">
-                    From BigBang🐱
+                    <div class="signature">
+                        From BigBang🐱
+                    </div>
                 </div>
             </div>
         </div>
