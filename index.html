@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RakEarnKonDiewMaiBangHaiKrai</title>
+    <!-- ดึงฟอนต์ Playpen Sans Thai และ Charm จาก Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Charm:ital,wght@0,400;0,700;1,400;1,700&family=Playpen+Sans+Thai:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #fde8e8;
+            /* ค่าเริ่มต้นฟอนต์รวม */
+            font-family: 'Playpen Sans Thai', 'Charm', sans-serif;
+            overflow: hidden;
+        }
+
+        .scene {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- ซองจดหมาย --- */
+        .envelope-wrapper {
+            position: relative;
+            width: clamp(280px, 80vw, 360px);
+            height: clamp(180px, 50vw, 230px);
+            background-color: #f55cc7;
+            border-radius: 6px;
+            box-shadow: 0 15px 30px rgba(245, 92, 199, 0.25);
+            transition: all 1.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+            z-index: 10;
+        }
+
+        .heart-seal {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 48px;
+            height: 48px;
+            z-index: 5;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+            transition: opacity 0.3s ease;
+        }
+
+        .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: clamp(140px, 40vw, 180px) solid transparent;
+            border-right: clamp(140px, 40vw, 180px) solid transparent;
+            border-top: clamp(100px, 28vw, 130px) solid #ff2a8d;
+            z-index: 4;
+            transform-origin: top;
+            transition: transform 0.6s ease-in-out, z-index 0s 0.6s; 
+        }
+
+        .pocket {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: clamp(140px, 40vw, 180px) solid #f07ae0;
+            border-right: clamp(140px, 40vw, 180px) solid #f07ae0;
+            border-bottom: clamp(100px, 30vw, 130px) solid #f896eb;
+            border-top: clamp(80px, 20vw, 100px) solid transparent;
+            z-index: 3;
+            border-radius: 0 0 6px 6px;
+            pointer-events: none;
+        }
+
+        .fake-letter {
+            position: absolute;
+            bottom: 5px;
+            left: 5%;
+            width: 90%;
+            height: 90%;
+            background-color: #fff;
+            border-radius: 5px;
+            z-index: 2;
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .warning {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #727272;
+            font-weight: bold;
+            transition: opacity 0.3s ease;
+            z-index: 15;
+        }
+
+        /* --- แผ่นกระดาษจดหมายจริง --- */
+        .real-letter {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.1);
+            width: 90vw;
+            max-width: 600px;
+            height: 85vh;
+            background-color: #fffcf9;
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+            padding: clamp(20px, 5vw, 35px);
+            box-sizing: border-box;
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .content::-webkit-scrollbar { width: 6px; }
+        .content::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        .content::-webkit-scrollbar-thumb { background: #ffb3b3; border-radius: 10px; }
+
+        /* หัวข้อหลัก: ใช้ฟอนต์ Charm + ตัวเอียง */
+        .content h1 {
+            font-family: 'Charm', cursive;
+            font-style: italic;
+            color: #d9534f;
+            text-align: center;
+            margin-top: 0;
+            font-size: clamp(22px, 5.5vw, 27px);
+            font-weight: 700;
+        }
+
+        .to-earn {
+            font-family: 'Charm', cursive;
+            color: #ff00ea;
+            font-size: 19px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .content p {
+            color: #555;
+            line-height: 1.85;
+            font-size: clamp(14px, 3.8vw, 14px);
+            margin-bottom: 15px;
+            white-space: pre-wrap;
+        }
+
+        /* กำหนดเฉพาะคำภาษาอังกฤษในเนื้อหาให้ใช้ฟอนต์ Charm */
+        .content p span.en-text, .content h1 span.en-text, .to-earn span.en-text {
+            font-family: 'Charm', cursive;
+        }
+
+        /* ส่วนท้ายกระดาษ (ดอกไม้ซ้ายล่าง & ชื่อขวาล่าง) */
+        .letter-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 20px;
+            padding-top: 10px;
+            position: relative;
+        }
+
+        .signature {
+            font-family: 'Charm', cursive;
+            font-weight: 700;
+            color: #ff00ea;
+            font-size: 19px;
+            margin-bottom: 10px;
+        }
+
+        /* =========================================
+           การจัดช่อดอกไม้แบบแม่นยำ (Precision Bouquet)
+           ========================================= */
+        .flower-container {
+            position: relative;
+            width: 140px;
+            height: 160px;
+            transform: scale(clamp(0.75, 4vw, 1)); 
+            transform-origin: bottom left;
+            pointer-events: none;
+        }
+
+        .vase-glass {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 42px;
+            height: 48px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(220, 240, 255, 0.6));
+            border: 2px solid rgba(255, 182, 193, 0.8);
+            border-radius: 8px 8px 22px 22px;
+            box-shadow: inset 0 0 10px rgba(255, 105, 180, 0.25), 0 5px 12px rgba(0,0,0,0.08);
+            z-index: 10;
+            backdrop-filter: blur(3px);
+        }
+
+        .vase-glass::before {
+            content: '';
+            position: absolute;
+            top: 5px; left: 4px; right: 4px; bottom: 5px;
+            background: rgba(255, 182, 219, 0.4);
+            border-radius: 4px 4px 16px 16px;
+        }
+
+        .stem {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            width: 3px;
+            background: linear-gradient(to top, #ff80ab, #f50057);
+            border-radius: 3px;
+            transform-origin: bottom center;
+            height: 0;
+            transition: height 1s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 5;
+        }
+
+        .stem-1 { transform: translateX(-50%) rotate(0deg); }
+        .stem-2 { transform: translateX(-50%) rotate(-24deg); }
+        .stem-3 { transform: translateX(-50%) rotate(24deg); }
+        .stem-4 { transform: translateX(-50%) rotate(-45deg); }
+        .stem-5 { transform: translateX(-50%) rotate(45deg); }
+        .stem-6 { transform: translateX(-50%) rotate(-12deg); }
+        .stem-7 { transform: translateX(-50%) rotate(12deg); }
+
+        .bloom {
+            position: absolute;
+            top: 0; 
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.27);
+        }
+
+        .bloom-main { width: 32px; height: 32px; }
+        .bloom-small { width: 22px; height: 22px; }
+
+        .petal {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform-origin: center bottom;
+            border-radius: 12px 12px 0 0;
+            background: linear-gradient(to top, #ff80ab, #ff1744);
+            box-shadow: 0 0 8px rgba(255, 64, 129, 0.5);
+        }
+
+        .bloom-main .petal { width: 12px; height: 20px; }
+        .bloom-small .petal { width: 8px; height: 14px; border-radius: 8px 8px 0 0; background: linear-gradient(to top, #ff99cc, #ff4081); }
+
+        .p1 { transform: translate(-50%, -100%) rotate(0deg); }
+        .p2 { transform: translate(-50%, -100%) rotate(60deg); }
+        .p3 { transform: translate(-50%, -100%) rotate(120deg); }
+        .p4 { transform: translate(-50%, -100%) rotate(180deg); }
+        .p5 { transform: translate(-50%, -100%) rotate(240deg); }
+        .p6 { transform: translate(-50%, -100%) rotate(300deg); }
+
+        .bloom-core {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background: radial-gradient(circle, #fff59d, #ffca28);
+            z-index: 2;
+        }
+
+        .bloom-main .bloom-core { width: 12px; height: 12px; box-shadow: 0 0 10px #ffca28; }
+        .bloom-small .bloom-core { width: 8px; height: 8px; box-shadow: 0 0 6px #ffca28; }
+
+        .glowing-particle {
+            position: absolute;
+            width: 5px; height: 5px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #ff4081, 0 0 12px #fff;
+            opacity: 0;
+            animation: floatGlow 3s infinite ease-in-out;
+        }
+
+        @keyframes floatGlow {
+            0% { opacity: 0; transform: translateY(0) scale(0.5); }
+            50% { opacity: 1; transform: translateY(-25px) scale(1.2); }
+            100% { opacity: 0; transform: translateY(-50px) scale(0.3); }
+        }
+
+        /* Trigger อนิเมชั่นดอกไม้งอกตอนเปิดจดหมาย */
+        .scene.expand .stem-1 { height: 125px; transition-delay: 1.3s; }
+        .scene.expand .stem-2 { height: 105px; transition-delay: 1.4s; }
+        .scene.expand .stem-3 { height: 105px; transition-delay: 1.5s; }
+        .scene.expand .stem-4 { height: 75px; transition-delay: 1.6s; }
+        .scene.expand .stem-5 { height: 75px; transition-delay: 1.7s; }
+        .scene.expand .stem-6 { height: 65px; transition-delay: 1.8s; }
+        .scene.expand .stem-7 { height: 65px; transition-delay: 1.9s; }
+
+        .scene.expand .stem-1 .bloom { transform: translate(-50%, -50%) rotate(0deg) scale(1); transition-delay: 2.1s; }
+        .scene.expand .stem-2 .bloom { transform: translate(-50%, -50%) rotate(24deg) scale(1); transition-delay: 2.2s; }
+        .scene.expand .stem-3 .bloom { transform: translate(-50%, -50%) rotate(-24deg) scale(1); transition-delay: 2.3s; }
+        .scene.expand .stem-4 .bloom { transform: translate(-50%, -50%) rotate(45deg) scale(1); transition-delay: 2.4s; }
+        .scene.expand .stem-5 .bloom { transform: translate(-50%, -50%) rotate(-45deg) scale(1); transition-delay: 2.5s; }
+        .scene.expand .stem-6 .bloom { transform: translate(-50%, -50%) rotate(12deg) scale(1); transition-delay: 2.6s; }
+        .scene.expand .stem-7 .bloom { transform: translate(-50%, -50%) rotate(-12deg) scale(1); transition-delay: 2.7s; }
+
+        .scene.expand .glowing-particle { animation-delay: 2.8s; }
+
+        /* ปุ่มกด & อนิเมชั่นซองจดหมาย */
+        .action-btn {
+            margin-top: 35px;
+            padding: 12px 38px;
+            font-size: 17px;
+            font-weight: bold;
+            font-family: 'Playpen Sans Thai', sans-serif;
+            color: white;
+            background: linear-gradient(135deg, #f763cd, #f03cb7);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(240, 60, 183, 0.35);
+            transition: all 0.3s ease;
+            z-index: 15;
+        }
+        .action-btn:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 10px 25px rgba(240, 60, 183, 0.5); 
+        }
+
+        .scene.open-flap .flap { transform: rotateX(180deg); z-index: 1; }
+        .scene.open-flap .heart-seal { opacity: 0; }
+        .scene.peek .fake-letter { transform: translateY(-40px); }
+        .scene.expand .envelope-wrapper { transform: translate(20vw, 50vh) rotate(35deg) scale(0.6); opacity: 0; }
+        .scene.expand .real-letter { transform: translate(-50%, -50%) scale(1); opacity: 1; pointer-events: auto; }
+        .scene.expand .action-btn { opacity: 0; pointer-events: none; }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="พิง.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="scene" id="scene">
+        <div class="envelope-wrapper">
+            <div class="flap"></div>
+            <svg class="heart-seal" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 88 C20 68 5 50 5 30 C5 15 18 5 32 5 C41 5 47 10 50 16 C53 10 59 5 68 5 C82 5 95 15 95 30 C95 50 80 68 50 88 Z" fill="#FFA4E6"/>
+                <path d="M50 80 C25 63 12 47 12 30 C12 18 22 10 33 10 C41 10 46 14 50 20 C54 14 59 10 67 10 C78 10 88 18 88 30 C88 47 75 63 50 80 Z" fill="#FF5FC8"/>
+                <path d="M50 72 C30 57 20 43 20 30 C20 21 27 15 35 15 C41 15 46 18 50 24 C54 18 59 15 65 15 C73 15 80 21 80 30 C80 43 70 57 50 72 Z" fill="#E60067"/>
+                <circle cx="36" cy="24" r="3" fill="white" opacity="0.6"/>
+            </svg>
+            <div class="fake-letter"></div>
+            <div class="pocket"></div>
+        </div>
+
+        <button class="action-btn" id="openBtn">กดเปิดตรงนี้คับ🐱</button>
+        <div class="warning" id="warningText">*เปิดเสียงด้วยนะคับ*</div>
+
+        <div class="real-letter">
+            <div class="content">
+                <h1>Happy 2 Months Anniversary Kub💖</h1>
+                <div class="to-earn">To Earn😸</div>
+                <p>  2เดือนแล้วน้าาาา เป็นเดือนที่หนักของเราทั้งสองคน แต่พวกเราก็เจ๋งแจ๋วนะที่ผ่านมาได้ ความตั้งใจของเอิร์นมันพลอยทำให้พี่มีความตั้งใจไปด้วยเลยขอบคุณเอิร์นมากคับ ถึงจะไม่ได้เจอกันเลยแบบนี้แต่การได้รับรู้คำว่าคิดถึงจากเอิร์นบ้างหรือเวลาเอิร์นทักมาก่อน มันช่วยเติมพลังให้หัวใจพี่ได้เยอะมากๆเลยน้ามันช่วยเปลี่ยนวันธรรมดาของพี่เป็นวันที่มีความสุขที่สุดได้เลย พี่รักเอิร์นเหมือนเดิมและมากขึ้นเรื่อยๆแบบสมการ Exponential เลยด้วย ตั้งแต่วันแรกทุกเพลงรักที่พี่ชอบลงโน้ตความหมายมันเป็นเอิร์นคนเดียวเลยคับ พี่จะรักเอิร์นต่อไปเรื่อยๆจะไม่หายไปหนายยยเหมือนกับที่เอิร์นบอกว่าชอบพี่ที่ตรงไหนเลยค้าบบ LUV Earn 4EVER na kub💞😽 ปล.พี่เลือกเพลงนี้เพราะเป็นเพลงรักเพลงแรกที่พี่ส่งให้เอิร์นคับ</p>
+            </div>
+            
+            <!-- ส่วนท้ายที่มีการจัด Layout ซ้าย-ขวา ชัดเจน -->
+            <div class="letter-footer">
+                
+                <!-- ช่อดอกไม้จัดเรียงองศาใหม่ สวยงามไม่ซ้อนทับกัน -->
+                <div class="flower-container">
+                    <div class="vase-glass"></div>
+                    
+                    <!-- ก้านที่ 1 (กลาง สูงสุด ดอกใหญ่) -->
+                    <div class="stem stem-1">
+                        <div class="bloom bloom-main">
+                            <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
+                            <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
+                            <div class="bloom-core"></div>
+                        </div>
+                    </div>
+
+                    <!-- ก้านที่ 2 (ซ้ายกลาง ดอกใหญ่) -->
+                    <div class="stem stem-2">
+                        <div class="bloom bloom-main">
+                            <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
+                            <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
+                            <div class="bloom-core"></div>
+                        </div>
+                    </div>
+
+                    <!-- ก้านที่ 3 (ขวากลาง ดอกใหญ่) -->
+                    <div class="stem stem-3">
+                        <div class="bloom bloom-main">
+                            <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
+                            <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
+                            <div class="bloom-core"></div>
+                        </div>
+                    </div>
+
+                    <!-- ก้านที่ 4 (ซ้ายสุด ดอกเล็ก) -->
+                    <div class="stem stem-4">
+                        <div class="bloom bloom-small">
+                            <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
+                            <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
+                            <div class="bloom-core"></div>
+                        </div>
+                    </div>
+
+                    <!-- ก้านที่ 5 (ขวาสุด ดอกเล็ก) -->
+                    <div class="stem stem-5">
+                        <div class="bloom bloom-small">
+                            <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
+                            <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
+                            <div class="bloom-core"></div>
+                        </div>
+                    </div>
+
+                    <!-- ก้านที่ 6 (ซ้ายเตี้ย ดอกเล็ก) -->
+                    <div class="stem stem-6">
+                        <div class="bloom bloom-small">
+                            <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
+                            <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
+                            <div class="bloom-core"></div>
+                        </div>
+                    </div>
+
+                    <!-- ก้านที่ 7 (ขวาเตี้ย ดอกเล็ก) -->
+                    <div class="stem stem-7">
+                        <div class="bloom bloom-small">
+                            <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
+                            <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
+                            <div class="bloom-core"></div>
+                        </div>
+                    </div>
+
+                    <!-- ละอองเรืองแสง -->
+                    <div class="glowing-particle" style="left: 20px; top: 10px; animation-delay: 2.8s;"></div>
+                    <div class="glowing-particle" style="left: 120px; top: 30px; animation-delay: 3.2s;"></div>
+                    <div class="glowing-particle" style="left: 60px; top: -10px; animation-delay: 3.5s;"></div>
+                </div>
+
+                <div class="signature">
+                    From BigBang🐱
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const scene = document.getElementById('scene');
+        const openBtn = document.getElementById('openBtn');
+        const warningText = document.getElementById('warningText');
+        const bgMusic = document.getElementById('bgMusic');
+
+        openBtn.addEventListener('click', () => {
+            bgMusic.play().catch(e => console.log("Auto-play blocked"));
+
+            openBtn.style.opacity = '0';
+            warningText.style.opacity = '0';
+            setTimeout(() => {
+                openBtn.style.display = 'none';
+                warningText.style.display = 'none';
+            }, 300);
+
+            scene.classList.add('open-flap');
+
+            setTimeout(() => {
+                scene.classList.add('peek');
+            }, 600);
+
+            setTimeout(() => {
+                scene.classList.add('expand');
+            }, 1200);
+        });
+    </script>
+
+</body>
+</html>
