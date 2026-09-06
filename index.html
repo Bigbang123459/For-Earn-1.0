@@ -230,6 +230,7 @@
             font-family: 'Charm', cursive;
         }
 
+        /* --- ส่วนล่างของจดหมาย (จัดเรียงใหม่ให้อยู่ในระเบียบ ไม่ทับกัน) --- */
         .letter-footer {
             display: flex;
             justify-content: space-between;
@@ -237,31 +238,36 @@
             margin-top: 20px;
             padding-top: 10px;
             position: relative;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
-        /* --- กรอบรูปคู่สไตล์โพลารอยด์ตรงกลาง --- */
+        .footer-left {
+            display: flex;
+            align-items: flex-end;
+            gap: 15px;
+        }
+
+        /* --- กรอบรูปคู่สไตล์โพลารอยด์ --- */
         .couple-photo-frame {
-            position: absolute;
-            left: 50%;
-            bottom: 15px;
-            transform: translateX(-50%) rotate(2deg);
             background: #ffffff;
-            padding: 8px;
+            padding: 6px 6px 18px 6px;
             border-radius: 4px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-            width: 95px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 85px;
             text-align: center;
-            z-index: 12;
+            transform: rotate(2deg);
             transition: transform 0.3s ease;
+            flex-shrink: 0;
         }
 
         .couple-photo-frame:hover {
-            transform: translateX(-50%) rotate(0deg) scale(1.05);
+            transform: rotate(0deg) scale(1.05);
         }
 
         .couple-photo-frame img {
             width: 100%;
-            height: 95px;
+            height: 85px;
             object-fit: cover;
             border-radius: 2px;
             display: block;
@@ -272,17 +278,18 @@
             font-weight: 700;
             color: #ff00ea;
             font-size: 19px;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
         /* --- ช่อดอกไม้ --- */
         .flower-container {
             position: relative;
-            width: 140px;
-            height: 160px;
-            transform: scale(clamp(0.75, 4vw, 1)); 
+            width: 120px;
+            height: 140px;
+            transform: scale(clamp(0.7, 3.5vw, 0.9)); 
             transform-origin: bottom left;
             pointer-events: none;
+            flex-shrink: 0;
         }
 
         .vase-glass {
@@ -465,66 +472,68 @@
             </div>
             
             <div class="letter-footer">
-                <div class="flower-container">
-                    <div class="vase-glass"></div>
-                    
-                    <div class="stem stem-1">
-                        <div class="bloom bloom-main">
-                            <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
-                            <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
-                            <div class="bloom-core"></div>
+                <div class="footer-left">
+                    <div class="flower-container">
+                        <div class="vase-glass"></div>
+                        
+                        <div class="stem stem-1">
+                            <div class="bloom bloom-main">
+                                <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
+                                <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
+                                <div class="bloom-core"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="stem stem-2">
-                        <div class="bloom bloom-main">
-                            <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
-                            <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
-                            <div class="bloom-core"></div>
+                        <div class="stem stem-2">
+                            <div class="bloom bloom-main">
+                                <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
+                                <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
+                                <div class="bloom-core"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="stem stem-3">
-                        <div class="bloom bloom-main">
-                            <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
-                            <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
-                            <div class="bloom-core"></div>
+                        <div class="stem stem-3">
+                            <div class="bloom bloom-main">
+                                <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
+                                <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
+                                <div class="bloom-core"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="stem stem-4">
-                        <div class="bloom bloom-small">
-                            <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
-                            <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
-                            <div class="bloom-core"></div>
+                        <div class="stem stem-4">
+                            <div class="bloom bloom-small">
+                                <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
+                                <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
+                                <div class="bloom-core"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="stem stem-5">
-                        <div class="bloom bloom-small">
-                            <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
-                            <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
-                            <div class="bloom-core"></div>
+                        <div class="stem stem-5">
+                            <div class="bloom bloom-small">
+                                <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
+                                <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
+                                <div class="bloom-core"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="stem stem-6">
-                        <div class="bloom bloom-small">
-                            <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
-                            <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
-                            <div class="bloom-core"></div>
+                        <div class="stem stem-6">
+                            <div class="bloom bloom-small">
+                                <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
+                                <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
+                                <div class="bloom-core"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="stem stem-7">
-                        <div class="bloom bloom-small">
-                            <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
-                            <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
-                            <div class="bloom-core"></div>
+                        <div class="stem stem-7">
+                            <div class="bloom bloom-small">
+                                <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
+                                <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
+                                <div class="bloom-core"></div>
+                            </div>
                         </div>
+
+                        <div class="glowing-particle" style="left: 20px; top: 10px; animation-delay: 2.8s;"></div>
+                        <div class="glowing-particle" style="left: 120px; top: 30px; animation-delay: 3.2s;"></div>
+                        <div class="glowing-particle" style="left: 60px; top: -10px; animation-delay: 3.5s;"></div>
                     </div>
 
-                    <div class="glowing-particle" style="left: 20px; top: 10px; animation-delay: 2.8s;"></div>
-                    <div class="glowing-particle" style="left: 120px; top: 30px; animation-delay: 3.2s;"></div>
-                    <div class="glowing-particle" style="left: 60px; top: -10px; animation-delay: 3.5s;"></div>
-                </div>
-
-                <div class="couple-photo-frame">
-                    <img src="EarnandMe.jpg" alt="Our Picture">
+                    <div class="couple-photo-frame">
+                        <img src="EarnandMe.jpg" alt="Our Picture">
+                    </div>
                 </div>
 
                 <div class="signature">
