@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RakEarnKonDiewMaiBangHaiKrai</title>
-    <!-- ดึงฟอนต์ Playpen Sans Thai และ Charm จาก Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Charm:ital,wght@0,400;0,700;1,400;1,700&family=Playpen+Sans+Thai:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -240,6 +239,34 @@
             position: relative;
         }
 
+        /* --- กรอบรูปคู่สไตล์โพลารอยด์ตรงกลาง --- */
+        .couple-photo-frame {
+            position: absolute;
+            left: 50%;
+            bottom: 15px;
+            transform: translateX(-50%) rotate(2deg);
+            background: #ffffff;
+            padding: 8px;
+            border-radius: 4px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            width: 95px;
+            text-align: center;
+            z-index: 12;
+            transition: transform 0.3s ease;
+        }
+
+        .couple-photo-frame:hover {
+            transform: translateX(-50%) rotate(0deg) scale(1.05);
+        }
+
+        .couple-photo-frame img {
+            width: 100%;
+            height: 95px;
+            object-fit: cover;
+            border-radius: 2px;
+            display: block;
+        }
+
         .signature {
             font-family: 'Charm', cursive;
             font-weight: 700;
@@ -408,7 +435,6 @@
 </head>
 <body>
 
-    <!-- ชั้นสำหรับหัวใจสีชมพูโปรยปราย -->
     <div class="rose-petals-container" id="petalsContainer"></div>
 
     <audio id="bgMusic" loop>
@@ -495,6 +521,10 @@
                     <div class="glowing-particle" style="left: 20px; top: 10px; animation-delay: 2.8s;"></div>
                     <div class="glowing-particle" style="left: 120px; top: 30px; animation-delay: 3.2s;"></div>
                     <div class="glowing-particle" style="left: 60px; top: -10px; animation-delay: 3.5s;"></div>
+                </div>
+
+                <div class="couple-photo-frame">
+                    <img src="EarnandMe.jpg" alt="Our Picture">
                 </div>
 
                 <div class="signature">
